@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<title>春节贺卡</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background: #fff;
+				margin: 0;
+				padding: 20px;
+			}
+
+			.card {
+				max-width: 600px;
+				margin: 0 auto;
+				background: #fff;
+				padding: 20px;
+				border-radius: 10px;
+				box-shadow: 0 2px 5px rgba(255, 255, 0, .3);
+			}
+
+			.card img {
+				width: 100%;
+				border-radius: 8px 8px 0 0;
+			}
+
+			.greeting {
+				text-align: center;
+				font-size: 24px;
+				color: #333;
+				margin-top: 20px;
+				cursor: pointer;
+				/* 手型提示可点击 */
+				user-select: none;
+				/* 禁止选中文字 */
+				transition: color .3s;
+			}
+
+			.greeting:hover {
+				color: #ff0000;
+			}
+
+			.link {
+				text-align: center;
+				margin-top: 10px;
+			}
+
+			.link a {
+				color: #ff0000;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="card">
+			<img src="./img/2.webp" alt="春节贺卡图片">
+			<!-- 点击即可换祝福 -->
+			<div class="greeting" id="greeting" title="点我换祝福">新年快乐！</div>
+		</div>
+
+		<script>
+			// 吉祥话池子，想加多少加多少
+			const greetings = [
+				"新年快乐！",
+				"马年大吉，万事如意！",
+				"岁岁平安，心想事成！",
+				"财源滚滚，福气连连！",
+				"桃花朵朵，甜蜜加倍！",
+				"愿你笑口常开，好运常在！",
+				"一夜暴富！",
+				"健康常伴，烦恼退散！"
+			];
+			let idx = 0;
+			const box = document.getElementById('greeting');
+			
+			box.addEventListener('click', fadeNext);
+			
+			function fadeNext() {
+			  idx = (idx + 1) % greetings.length;
+			  box.style.transition = 'opacity .3s';
+			  box.style.opacity = 0;
+			  setTimeout(() => {
+			    box.textContent = greetings[idx];
+			    box.style.opacity = 1;
+			  }, 300);
+			}
+		</script>
+	</body>
+</html>
