@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<title>小年贺卡</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background: #fff;
+				margin: 0;
+				padding: 20px;
+			}
+
+			.card {
+				max-width: 600px;
+				margin: 0 auto;
+				background: #fff;
+				padding: 20px;
+				border-radius: 10px;
+				box-shadow: 0 2px 5px rgba(255, 255, 0, .3);
+			}
+
+			.card img {
+				width: 100%;
+				border-radius: 8px 8px 0 0;
+			}
+
+			.greeting {
+				text-align: center;
+				font-size: 24px;
+				color: #333;
+				margin-top: 20px;
+				cursor: pointer;
+				user-select: none;
+				transition: color .3s;
+			}
+
+			.greeting:hover {
+				color: #ff0000;
+			}
+
+
+			@keyframes fall {
+				to {
+					transform: translateY(100vh);
+				}
+			}
+
+			/* 福字爆炸动画 */
+			@keyframes boom {
+				0% {
+					transform: translate(0, 0) scale(1);
+					opacity: 1;
+				}
+
+				100% {
+					transform: translate(var(--x), var(--y)) scale(0);
+					opacity: 0;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="card">
+			<img src="./img/2026.webp" alt="小年贺卡图片">
+			<div class="greeting" id="greeting" title="点我换祝福">小年快乐！</div>
+		</div>
+
+		<script>
+			//吉祥话池子，想加多少加多少
+			const greetings = [
+				"小年快乐！",
+				"马年大吉，万事如意！",
+				"岁岁平安，心想事成！",
+				"财源滚滚，福气连连！",
+				"桃花朵朵，甜蜜加倍！",
+				"愿你笑口常开，好运常在！",
+				"一夜暴富！",
+				"健康常伴，烦恼退散！"
+			];
+			let idx = 0;
+			const box = document.getElementById('greeting');
+
+			// ===== 打字机特效 =====
+			function typeWriter(text, element, speed) {
+				element.textContent = '';
+				let i = 0;
+				const timer = setInterval(() => {
+					element.textContent += text.charAt(i);
+					i++;
+					if (i > text.length - 1) clearInterval(timer);
+				}, speed);
+			}
+
+			// ===== 点击事件：打字机 + 福字爆炸 =====
+			box.addEventListener('click', (e) => {
+				// 1. 打字机换语
+				idx = (idx + 1) % greetings.length;
+				typeWriter(greetings[idx], box, 80);
+				// 2. 福字爆炸
+				for (let i = 0; i < 8; i++) {
+					const f = document.createElement('div');
+					f.textContent = '福';
+					f.style.cssText = `
+          position:fixed; left:${e.clientX}px; top:${e.clientY}px;
+          font-size:28px; color:#ff0000; pointer-events:none;
+          animation:boom 1s ease-out forwards;
+          --x:${Math.random() * 200 - 100}px; --y:${Math.random() * -150 - 50}px;
+        `;
+					document.body.appendChild(f);
+					setTimeout(() => f.remove(), 1000);
+				}
+			});
+
+			setInterval(createSnow, 300);
+		</script>
+	</body>
+</html>

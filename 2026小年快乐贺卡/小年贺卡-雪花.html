@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<title>小年贺卡</title>
+		<style>
+			/* 雪花基础样式（已补全大括号） */
+			.snowflake {
+				position: fixed;
+				top: -10px;
+				color: #e0f7ff;
+				/* 淡蓝偏白，显色 */
+				user-select: none;
+				pointer-events: none;
+				font-size: 1em;
+				animation: fall linear infinite;
+			}
+
+			@keyframes fall {
+				to {
+					transform: translateY(100vh);
+				}
+			}
+
+			/* 页面背景：淡粉→米白渐变，浪漫又应景 */
+			body {
+				font-family: Arial, sans-serif;
+				background: linear-gradient(135deg, #fff0f5 0%, #ffffff 100%);
+				margin: 0;
+				padding: 20px;
+			}
+
+			.card {
+				max-width: 600px;
+				margin: 0 auto;
+				background: #fff;
+				padding: 20px;
+				border-radius: 10px;
+				box-shadow: 0 2px 5px rgba(255, 255, 0, .3);
+			}
+
+			.card img {
+				width: 100%;
+				border-radius: 8px 8px 0 0;
+			}
+
+			.greeting {
+				text-align: center;
+				font-size: 24px;
+				color: #333;
+				margin-top: 20px;
+				cursor: pointer;
+				user-select: none;
+				transition: color .3s;
+			}
+
+			.greeting:hover {
+				color: #ff0000;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="card">
+			<img src="img/2026.webp" alt="小年贺卡图片">
+			<div class="greeting" id="greeting" title="点我换祝福">小年快乐！</div>
+		</div>
+
+		<script>
+			// 吉祥话池子，想加多少加多少
+			const greetings = [
+				"小年快乐！",
+				"马年大吉，万事如意！",
+				"岁岁平安，心想事成！",
+				"财源滚滚，福气连连！",
+				"桃花朵朵，甜蜜加倍！",
+				"愿你笑口常开，好运常在！",
+				"一夜暴富！",
+				"健康常伴，烦恼退散！"
+			];
+			let idx = 0;
+			const box = document.getElementById('greeting');
+			box.addEventListener('click', () => {
+				idx = (idx + 1) % greetings.length;
+				typeWriter(greetings[idx], box, 80);
+			});
+
+			function typeWriter(text, element, speed) {
+				element.textContent = '';
+				let i = 0;
+				const timer = setInterval(() => {
+					element.textContent += text.charAt(i);
+					i++;
+					if (i > text.length - 1) clearInterval(timer);
+				}, speed);
+			}
+
+			// 雪花生成
+			function createSnow() {
+				const s = document.createElement('div');
+				s.className = 'snowflake';
+				s.innerHTML = '❄';
+				s.style.left = Math.random() * 100 + '%';
+				s.style.animationDuration = 3 + Math.random() * 4 + 's';
+				s.style.opacity = Math.random();
+				document.body.appendChild(s);
+				setTimeout(() => s.remove(), 7000);
+			}
+			setInterval(createSnow, 300);
+		</script>
+	</body>
+</html>
